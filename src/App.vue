@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import LoginView from './views/LoginView.vue'
+import DashboardView from './ui/views/DashboardView.vue'
 </script>
 
 <template>
-  <LoginView />
+  <DashboardView />
 </template>
