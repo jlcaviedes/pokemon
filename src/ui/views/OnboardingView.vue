@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import spriteHilda from "../../assets/images/hilda.png";
 import spriteChild from "../../assets/images/child.png";
 import spriteDoctor from "../../assets/images/doctor.png";
 
-const router = useRouter();
 const text = ref("Continuar");
 const step = ref(0);
 

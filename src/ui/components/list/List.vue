@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import type { Pokemon } from "../../../core/pokemon/pokemon.types.ts";
 import PokemonCard from "../card/Card.vue";
 
-defineProps<{
+const { pokemons, favorites } = defineProps<{
   pokemons: Pokemon[];
+  favorites: Number[];
 }>();
 
-const favorites = ref([]);
-const emit = defineEmits<{
-  favorites: [];
-}>();
+const emit = defineEmits();
 
 const onFavorite = (pokemonId: number) => {
-  favorites.value.includes(pokemonId)
-    ? (favorites.value = favorites.value.filter((id) => id !== pokemonId))
-    : favorites.value.push(pokemonId);
-  emit("favorites", favorites.value);
+  const favoritesCurrent = [...favorites] as number[];
+  favoritesCurrent.includes(pokemonId)
+    ? favoritesCurrent.splice(favoritesCurrent.indexOf(pokemonId))
+    : favoritesCurrent.push(pokemonId);
+
+  emit("select-favorites", favoritesCurrent);
 };
 </script>
 
