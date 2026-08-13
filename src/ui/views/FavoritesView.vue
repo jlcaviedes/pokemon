@@ -1,34 +1,21 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import type { Pokemon } from "../../core/pokemon/pokemon.types";
-import { getPokemons } from "../../core/pokemon/pokemon.service";
 
-import PokemonList from "../components/list/List.vue";
+import { usePokemonStore } from "../../core/pokemon/pokemon.store.ts";
 import Empty from "../components/empty/Empty.vue";
+import PokemonList from "../components/list/List.vue";
 
+const pokemonStore = usePokemonStore();
 const pokemons = ref<Pokemon[]>([]);
-const favorites = ref<number[]>([]);
-const loading = ref(false);
-const error = ref<string | null>(null);
-const search = ref("");
+const favorites = ref<Number[]>([]);
 
-const loadPokemons = async () => {
-  try {
-    loading.value = true;
-    error.value = null;
-
-    pokemons.value = await getPokemons(20, 0);
-  } catch (err) {
-    error.value = "No se pudieron cargar los Pokémon";
-  } finally {
-    loading.value = false;
-  }
-};
-
-const onFavorites = (favorites) => {};
-
-onMounted(() => {
-  loadPokemons();
+onMounted(async () => {
+  await pokemonStore.loadPokemons();
+  favorites.value = pokemonStore.favorites;
+  pokemons.value = pokemonStore.pokemons.filter((pokemon) =>
+    favorites.value.includes(pokemon.id),
+  );
 });
 </script>
 
@@ -37,11 +24,7 @@ onMounted(() => {
     <header class="pokemon-header">
       <h1>Favoritos</h1>
     </header>
-    <PokemonList
-      :search="search"
-      :pokemons="pokemons"
-      @favorites="onFavorites"
-    />
+    <PokemonList :pokemons="pokemons" :favorites="favorites" />
   </main>
   <Empty
     v-else

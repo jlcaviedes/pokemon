@@ -1,33 +1,31 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import type { Pokemon } from "../../core/pokemon/pokemon.types";
-import { getPokemons } from "../../core/pokemon/pokemon.service";
 
+import { usePokemonStore } from "../../core/pokemon/pokemon.store.ts";
 import PokemonList from "../components/list/List.vue";
 import Search from "../components/search/Search.vue";
 
+const pokemonStore = usePokemonStore();
 const pokemons = ref<Pokemon[]>([]);
+const favorites = ref<Number[]>([]);
 const loading = ref(false);
 const error = ref<string | null>(null);
 const search = ref("");
 
-const loadPokemons = async () => {
-  try {
-    loading.value = true;
-    error.value = null;
-
-    pokemons.value = await getPokemons(20, 0);
-  } catch (err) {
-    error.value = "No se pudieron cargar los Pokémon";
-  } finally {
-    loading.value = false;
-  }
+const load = async () => {
+  await pokemonStore.loadPokemons();
+  pokemons.value = pokemonStore.pokemons;
+  favorites.value = pokemonStore.favorites;
 };
 
-const onFavorites = (favorites) => {};
+const onFavorites = (newFavorites: number[]) => {
+  pokemonStore.setFavorites(newFavorites);
+  favorites.value = newFavorites;
+};
 
 onMounted(() => {
-  loadPokemons();
+  load();
 });
 </script>
 
@@ -39,7 +37,8 @@ onMounted(() => {
     <PokemonList
       :search="search"
       :pokemons="pokemons"
-      @favorites="onFavorites"
+      :favorites="favorites"
+      @select-favorites="onFavorites"
     />
   </main>
 </template>
