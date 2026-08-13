@@ -25,7 +25,7 @@ const router = createRouter({
       component: FavoritesView,
     },
     {
-      path: "/pokedex",
+      path: "/",
       name: "pokedex",
       component: PokedexView,
     },
