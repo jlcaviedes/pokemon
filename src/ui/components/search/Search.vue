@@ -1,8 +1,16 @@
+<script setup lang="ts">
+import searchIcon from "../../../assets/icons/search.png";
+</script>
+
 <template>
   <div class="search-container">
-    <input v-model="search" type="search" placeholder="Procurar Pókemon..." />
-
-    <button type="button">🔍</button>
+    <div class="search-container__search">
+      <img :src="searchIcon" alt="Search" />
+      <input v-model="search" type="search" placeholder="Procurar Pókemon..." />
+    </div>
+    <button type="button">
+      <img :src="searchIcon" alt="Search" />
+    </button>
   </div>
 </template>
 
@@ -13,13 +21,22 @@
   column-gap: 16px;
 }
 
-.search-container input {
+.search-container__search {
   flex: 1;
+  display: flex;
+  align-items: center;
   padding: 12px 16px;
 
   border: 1px solid #e0e0e0;
   border-radius: 30px;
   background-color: #fff;
+}
+
+.search-container input {
+  border: none;
+  padding: 0px 16px;
+  background-color: #fff;
+  color: black;
   outline: none;
 }
 
