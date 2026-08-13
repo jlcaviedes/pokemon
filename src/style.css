@@ -1,7 +1,7 @@
 :root {
   --text: #6b6375;
   --text-h: #08060d;
-  --bg: #fff;
+  --bg: #fafafa;
   --border: #e5e4e7;
   --code-bg: #f4f3ec;
   --accent: #aa3bff;
@@ -30,7 +30,7 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
     --text: #9ca3af;
     --text-h: #f3f4f6;
@@ -81,6 +81,16 @@ h2 {
 }
 p {
   margin: 0;
+}
+
+button{
+  background-color: #1E88E5;
+  width: 328px;
+  height: 58px;
+  border-radius: 100px;
+  border: none;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 code,
