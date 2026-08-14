@@ -20,8 +20,9 @@ const onFavorite = (pokemonId: number) => {
 </script>
 
 <template>
-  <section class="pokemon-grid">
+  <section class="list">
     <PokemonCard
+      class="list-card"
       v-for="pokemon in pokemons"
       :key="pokemon.id"
       :pokemon="pokemon"
@@ -33,11 +34,16 @@ const onFavorite = (pokemonId: number) => {
 </template>
 
 <style scoped>
-.pokemon-grid {
-  display: grid;
-
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-
+.list {
   gap: 20px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.list-card {
+  width: 330px;
+  height: 110px;
 }
 </style>

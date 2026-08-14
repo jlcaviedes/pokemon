@@ -18,11 +18,6 @@ defineProps<{
 </template>
 <style scoped>
 .favorite-button {
-  position: absolute;
-
-  top: 12px;
-  right: 12px;
-
   width: 36px;
   height: 36px;
 
