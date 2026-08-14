@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import DetailView from "../views/DetailView.vue";
 import FavoritesView from "../views/FavoritesView.vue";
 import PokedexView from "../views/PokedexView.vue";
-import RegionsView from "../views/RegionsView.vue";
+import BuildView from "../views/BuildView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -17,7 +17,12 @@ const router = createRouter({
     {
       path: "/regions",
       name: "regions",
-      component: RegionsView,
+      component: BuildView,
+    },
+    {
+      path: "/profile",
+      name: "profile",
+      component: BuildView,
     },
     {
       path: "/favorites",
