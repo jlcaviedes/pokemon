@@ -85,10 +85,14 @@ Pokémon 41 - 60
 ...
 ```
 
+## Unit Test
+
+carga a la list of pokemones
+
 # TODO
 
 Las siguientes funcionalidades están pendientes:
 
  - Implementar traducciones para soportar diferentes idiomas.
- - Agregar pruebas unitarias.
+ 
  - Continuar mejorando detalles visuales y de UX según sea necesario.

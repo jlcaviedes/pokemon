@@ -34,6 +34,15 @@ const handleScroll = (e: any) => {
   }
 };
 
+const hasScroll = () => {
+  if (!divElement.value) {
+    console.log("-");
+    return false;
+  }
+
+  return divElement.value.scrollHeight > divElement.value.clientHeight;
+};
+
 onMounted(() => {
   divElement.value?.addEventListener("scroll", handleScroll);
 });
@@ -41,6 +50,8 @@ onMounted(() => {
 onUnmounted(() => {
   divElement.value?.removeEventListener("scroll", handleScroll);
 });
+
+defineExpose({ hasScroll });
 </script>
 
 <template>
@@ -79,10 +90,22 @@ onUnmounted(() => {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+  display: grid;
+
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  grid-template-rows: repeat(auto-fill, minmax(112px, 1fr));
+  width: 100%;
+  gap: 20px;
 }
 
 .list__card {
   width: 330px;
   height: 110px;
+}
+
+@media (max-width: 768px) {
+  .list__scroll {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
