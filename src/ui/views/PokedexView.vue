@@ -4,6 +4,7 @@ import type { Pokemon } from "../../core/pokemon/pokemon.types";
 
 import { usePokemonStore } from "../../core/pokemon/pokemon.store.ts";
 import PokemonList from "../components/list/List.vue";
+import FilterModal from "../components/filter/FilterModal.vue";
 import Search from "../components/search/Search.vue";
 import router from "../router/index.ts";
 
@@ -11,6 +12,9 @@ const pokemonStore = usePokemonStore();
 const pokemons = ref<Pokemon[]>([]);
 const favorites = ref<Number[]>([]);
 const search = ref("");
+const filter = ref(false);
+const typesFilter = ref<string[]>([]);
+const filtersSelected = ref<string[]>([]);
 
 const handleScroll = () => {
   const scrollPosition = window.innerHeight + window.scrollY;
@@ -22,8 +26,10 @@ const handleScroll = () => {
 
 const load = async () => {
   await pokemonStore.preLoadPokemons();
+  await pokemonStore.loadTypes();
   pokemons.value = pokemonStore.pokemons;
   favorites.value = pokemonStore.favorites;
+  typesFilter.value = pokemonStore.types;
 };
 
 const onFavorites = (newFavorites: number[]) => {
@@ -33,6 +39,32 @@ const onFavorites = (newFavorites: number[]) => {
 
 const onSelectPokemon = (pokemonName: string) => {
   router.push(`/detail/${pokemonName}`);
+};
+
+const onEraseFilters = () => {
+  filtersSelected.value = [];
+  pokemons.value = pokemonStore.pokemons;
+};
+
+const onApplyFilter = (newFilters: string[]) => {
+  filter.value = false;
+  filtersSelected.value = newFilters;
+  if (!newFilters.length) {
+    pokemons.value = pokemonStore.pokemons;
+    return;
+  }
+  const filters = new Set(newFilters);
+  pokemons.value = pokemons.value.filter((pokemon) =>
+    pokemon.types.some((type) => filters.has(type)),
+  );
+};
+
+const onCancelFilter = () => {
+  filter.value = false;
+};
+
+const onShowFilter = () => {
+  filter.value = true;
 };
 
 onMounted(() => {
@@ -47,8 +79,25 @@ onUnmounted(() => {
 
 <template>
   <main class="pokemon-view">
+    <FilterModal
+      :open="filter"
+      :types="typesFilter"
+      :selectedTypes="filtersSelected"
+      @close="onCancelFilter"
+      @apply="onApplyFilter"
+    />
     <header class="pokemon-header">
-      <Search />
+      <Search @click-search="onShowFilter" />
+      <div v-if="filtersSelected.length" class="pokemon-view__filters">
+        Se han encontrado {{ pokemons.length }} resultados
+        <button
+          type="button"
+          @click="onEraseFilters"
+          class="pokemon-view__link-erase"
+        >
+          Borrar filtro
+        </button>
+      </div>
     </header>
     <PokemonList
       :search="search"
@@ -66,10 +115,25 @@ onUnmounted(() => {
   padding: 32px;
 }
 
+.pokemon-view__filters {
+  display: flex;
+  font-size: 14px;
+  align-items: center;
+}
+
+.pokemon-view__link-erase {
+  color: #1e88e5;
+  background-color: transparent;
+  text-decoration: underline;
+  font-size: 14px;
+  height: fit-content;
+  width: fit-content;
+  cursor: pointer;
+}
+
 .pokemon-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 24px;
   margin-bottom: 32px;
 }
