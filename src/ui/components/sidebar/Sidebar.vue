@@ -84,6 +84,7 @@ import profileIcon from "../../../assets/icons/user.png";
 
 @media (max-width: 768px) {
   .sidebar {
+    position: relative;
     top: auto;
     bottom: 0;
     left: 0;
