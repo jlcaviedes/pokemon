@@ -1,34 +1,94 @@
-# Tecnologias utilizadas
+# Tecnologías utilizadas
 
-- Vue.js version 3
-- vue-router para manejar las rutas de la aplicación
-- npm install pinia para el manejador de estados
+- Vue.js versión 3
+- Vue Router para manejar las rutas de la aplicación
+- Pinia para el manejo del estado global
 
-- Primero revise el diseño del sitio web, entendiendo el flujo.
-- Segundo construir las vista pero vacias y router con su navegacion
-- tercero construi la vista mas influyecte que era optener el listado de los pokemones, no importaba si traia solo los 20 primero
-- cuarto cree una tarjeta que muestra la informacion del pokemon basica
-- quito agregue el flujo de los favoritos, extrañendo los iconos e images de figma
-- sexto cree la vista de los detalle del pokemon
-- sectimo cree las vista de informacion y alertas, ya se para reintentar
-- octavo cree la vista de construcion como la de region y perfil
-- noveno cree el component de filtro y validar si realizaba los filtro y cuando lo borra
-- decimo ajuste stylos de las tarjetas, layouts, views y demas components que sea lo mas fiel al diseño de figma
+# Proceso de desarrollo
 
-La applicacion tiene un store pinia que guarda los pokemones y los tipos.
-Tambien carga los pokemones cuando realiza el scroll y no todo una sola vez, porque demoraria la carga del app, es como lazy load. 
+1. **Revisión del diseño**
+   - Primero revisé el diseño del sitio web para entender el flujo de la aplicación.
 
-En el local store guarda el onbording por primera vez, para no mostrar nuevamente
+2. **Construcción de vistas y navegación**
+   - Construí las vistas inicialmente vacías.
+   - Configuré Vue Router y la navegación entre las diferentes vistas.
 
-Tome los gif de los pokemones para que se vea mas animado.
+3. **Listado de Pokémon**
+   - Construí la vista principal de la Pokédex.
+   - Implementé la obtención del listado de Pokémon desde la API.
+   - Inicialmente se cargan los primeros 20 Pokémon.
 
-Tambien me apoye en la IA, pidiendo ciertos elemento o preguntado cualquier duda como por ejemplo:
+4. **Tarjeta de Pokémon**
+   - Creé el componente de tarjeta para mostrar la información básica de cada Pokémon.
 
-- que me diera los colores claros y oscuro con respecto a tipo de pokemones, ya que en el diseño solo pude visualizar 2 tipos colores.
+5. **Sistema de favoritos**
+   - Implementé el flujo para agregar y eliminar Pokémon de favoritos.
+   - Extraje los iconos e imágenes proporcionados en Figma.
 
-- Tuve la limitacion del diseño de figma como images de Hoja y Fuego.
+6. **Detalle del Pokémon**
+   - Creé la vista de detalle con información más completa del Pokémon.
 
+7. **Vistas de información y alertas**
+   - Implementé vistas y componentes para mostrar información, errores y opciones para reintentar las solicitudes.
 
-# TODO:
-- lo que tengo pensado hacer es las traduciones, para poder usarlo en otros idiomas.
-- agregar los unit tests.
+8. **Vistas en construcción**
+   - Creé las vistas que todavía no tienen funcionalidad, como:
+     - Regiones
+     - Perfil
+
+9. **Filtro de Pokémon**
+   - Creé el componente de filtros.
+   - Implementé la selección de tipos.
+   - Validé la aplicación de filtros y la eliminación de los mismos.
+
+10. **Ajustes visuales**
+    - Ajusté los estilos de:
+      - Tarjetas
+      - Layouts
+      - Vistas
+      - Componentes
+    - El objetivo fue mantener la implementación lo más fiel posible al diseño proporcionado en Figma.
+
+# Arquitectura y funcionalidades
+
+## Pinia
+
+La aplicación utiliza **Pinia** para manejar el estado global.
+
+Actualmente el store administra principalmente:
+
+- Pokémon cargados.
+- Tipos de Pokémon.
+- Estado relacionado con la carga de información.
+
+## Carga progresiva de Pokémon
+
+Los Pokémon no se cargan todos de una sola vez.
+
+La aplicación utiliza un mecanismo de **infinite scroll**, cargando nuevos Pokémon conforme el usuario se desplaza por la lista.
+
+Esto evita realizar una solicitud demasiado grande al iniciar la aplicación y permite que el contenido se cargue progresivamente.
+
+```text
+Inicio
+  ↓
+Pokémon 1 - 20
+  ↓
+Scroll
+  ↓
+Pokémon 21 - 40
+  ↓
+Scroll
+  ↓
+Pokémon 41 - 60
+  ↓
+...
+```
+
+# TODO
+
+Las siguientes funcionalidades están pendientes:
+
+ - Implementar traducciones para soportar diferentes idiomas.
+ - Agregar pruebas unitarias.
+ - Continuar mejorando detalles visuales y de UX según sea necesario.
