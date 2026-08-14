@@ -18,16 +18,13 @@ const typesFilter = ref<string[]>([]);
 const filtersSelected = ref<string[]>([]);
 const okRequest = ref(false);
 
-const handleScroll = () => {
-  const scrollPosition = window.innerHeight + window.scrollY;
-  const pageHeight = document.documentElement.scrollHeight;
-  if (scrollPosition >= pageHeight - 300) {
-    pokemonStore.nextGroupOfPokemons();
-  }
+const handleScrollDown = () => {
+  pokemonStore.nextGroupOfPokemons();
 };
 
 const load = async () => {
   await pokemonStore.preLoadPokemons();
+  console.log("load ", pokemonStore.error);
   okRequest.value = pokemonStore.error === null;
   await pokemonStore.loadTypes();
   pokemons.value = pokemonStore.pokemons;
@@ -72,16 +69,11 @@ const onShowFilter = () => {
 
 onMounted(() => {
   load();
-  window.addEventListener("scroll", handleScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
 });
 </script>
 
 <template>
-  <main v-if="okRequest" class="pokemon-view">
+  <main v-if="okRequest" class="pokedex">
     <FilterModal
       :open="filter"
       :types="typesFilter"
@@ -89,14 +81,14 @@ onUnmounted(() => {
       @close="onCancelFilter"
       @apply="onApplyFilter"
     />
-    <header class="pokemon-header">
+    <header class="pokedex__header">
       <Search @click-search="onShowFilter" />
-      <div v-if="filtersSelected.length" class="pokemon-view__filters">
+      <div v-if="filtersSelected.length" class="pokedex__filters">
         Se han encontrado {{ pokemons.length }} resultados
         <button
           type="button"
           @click="onEraseFilters"
-          class="pokemon-view__link-erase"
+          class="pokedex__link-erase"
         >
           Borrar filtro
         </button>
@@ -108,6 +100,7 @@ onUnmounted(() => {
       :favorites="favorites"
       @select-favorites="onFavorites"
       @select-pokemon="onSelectPokemon"
+      @scroll-down="handleScrollDown"
     />
   </main>
   <Empty
@@ -120,17 +113,19 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.pokemon-view {
+.pokedex {
   padding: 32px;
+  overflow: hidden;
+  height: 100%;
 }
 
-.pokemon-view__filters {
+.pokedex__filters {
   display: flex;
   font-size: 14px;
   align-items: center;
 }
 
-.pokemon-view__link-erase {
+.pokedex__link-erase {
   color: #1e88e5;
   background-color: transparent;
   text-decoration: underline;
@@ -140,7 +135,7 @@ onUnmounted(() => {
   cursor: pointer;
 }
 
-.pokemon-header {
+.pokedex__header {
   display: flex;
   align-items: center;
   gap: 24px;
@@ -149,11 +144,13 @@ onUnmounted(() => {
 }
 
 @media (max-width: 768px) {
-  .pokemon-view {
+  .pokedex {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
   }
 
-  .pokemon-header {
+  .pokedex__header {
     flex-direction: column;
     align-items: stretch;
     padding-left: 0px;

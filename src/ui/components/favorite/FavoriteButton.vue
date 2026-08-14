@@ -20,24 +20,16 @@ defineProps<{
 .favorite-button {
   width: 36px;
   height: 36px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   border: none;
   border-radius: 50%;
-
   background: white;
-
   color: #aaa;
-
   font-size: 20px;
-
   cursor: pointer;
-
   z-index: 2;
-
   transition:
     color 0.2s ease,
     transform 0.2s ease;

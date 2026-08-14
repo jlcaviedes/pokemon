@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import Sidebar from "../components/sidebar/Sidebar.vue";
 </script>
 
 <template>
   <div class="dashboard">
     <Sidebar />
-
-    <main class="content">
-      <header class="mobile-header">
-        <h1></h1>
-      </header>
-
+    <main class="dashboard__content">
       <router-view />
     </main>
   </div>
@@ -21,22 +15,26 @@ import Sidebar from "../components/sidebar/Sidebar.vue";
 .dashboard {
   min-height: 100vh;
   display: flex;
+  height: 100vh;
 }
 
-.content {
+.dashboard__content {
   margin-left: 240px;
   width: 100%;
 }
 
-/* MOBILE */
 @media (max-width: 768px) {
   .dashboard {
-    display: block;
-    padding-bottom: 70px;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+    height: 100vh;
   }
 
-  .content {
+  .dashboard__content {
     margin-left: 0;
+    height: 100%;
+    overflow: hidden;
   }
 }
 </style>

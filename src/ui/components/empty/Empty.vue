@@ -15,9 +15,13 @@ const onPress = () => {
 
 <template>
   <main class="empty">
-    <section class="container">
-      <div class="empty__step-1">
-        <img class="illustration empty__img-2" :src="spriteFish" alt="fish" />
+    <section class="empty__container">
+      <div class="empty__block">
+        <img
+          class="empty__illustration empty__img"
+          :src="spriteFish"
+          alt="fish"
+        />
       </div>
 
       <h1>{{ title }}</h1>
@@ -42,7 +46,7 @@ const onPress = () => {
   padding: 24px;
 }
 
-.empty__step-1 {
+.empty__block {
   max-height: 265px;
   height: 265px;
   max-width: 342px;
@@ -54,18 +58,18 @@ const onPress = () => {
   left: 102px;
 }
 
-.empty__img-2 {
+.empty__img {
   position: absolute;
   left: 10px;
 }
 
-.container {
+.empty__container {
   width: 100%;
   text-align: center;
   width: 342px;
 }
 
-.illustration {
+.empty__illustration {
   filter: grayscale(100%);
   opacity: 0.5;
   margin-bottom: 32px;
@@ -83,27 +87,5 @@ p {
   line-height: 1.6;
   margin-bottom: 32px;
   font-size: 14px;
-}
-
-.indicators {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 32px;
-}
-
-.indicators span {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: #ccc;
-}
-
-.indicators span.active {
-  width: 28px;
-  background: #4565b7;
-  border-bottom-left-radius: 11px;
-  border-bottom-right-radius: 11px;
-  border-top-left-radius: 11px;
-  border-top-right-radius: 11px;
 }
 </style>

@@ -21,12 +21,10 @@ import spriteFish from "../../assets/images/jigglypuff.png";
 <style scoped>
 .build {
   min-height: 100vh;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   padding: 24px;
 }
 

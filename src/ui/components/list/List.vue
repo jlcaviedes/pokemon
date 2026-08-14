@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted, ref } from "vue";
 import type { Pokemon } from "../../../core/pokemon/pokemon.types.ts";
 import PokemonCard from "../card/Card.vue";
 
@@ -8,6 +9,7 @@ const { pokemons, favorites } = defineProps<{
 }>();
 
 const emit = defineEmits();
+const divElement = ref<HTMLDivElement | null>(null);
 
 const onFavorite = (pokemonId: number) => {
   const favoritesCurrent = [...favorites] as number[];
@@ -17,32 +19,69 @@ const onFavorite = (pokemonId: number) => {
 
   emit("select-favorites", favoritesCurrent);
 };
+
+const handleScroll = (e: any) => {
+  const element = divElement.value;
+  if (!element) {
+    return;
+  }
+  const { scrollTop, clientHeight, scrollHeight } = e.target;
+  const scrollPosition = clientHeight + scrollTop;
+  const pageHeight = scrollHeight;
+
+  if (scrollPosition >= pageHeight - 300) {
+    emit("scroll-down");
+  }
+};
+
+onMounted(() => {
+  divElement.value?.addEventListener("scroll", handleScroll);
+});
+
+onUnmounted(() => {
+  divElement.value?.removeEventListener("scroll", handleScroll);
+});
 </script>
 
 <template>
-  <section class="list">
-    <PokemonCard
-      class="list-card"
-      v-for="pokemon in pokemons"
-      :key="pokemon.id"
-      :pokemon="pokemon"
-      :favorite="favorites.includes(pokemon.id)"
-      @click-favorite="onFavorite(pokemon.id)"
-      @click="() => emit('select-pokemon', pokemon.name)"
-    />
+  <section class="list" ref="divElement">
+    <div class="list__scroll">
+      <PokemonCard
+        class="list__card"
+        v-for="pokemon in pokemons"
+        :key="pokemon.id"
+        :pokemon="pokemon"
+        :favorite="favorites.includes(pokemon.id)"
+        @click-favorite="onFavorite(pokemon.id)"
+        @click="() => emit('select-pokemon', pokemon.name)"
+      />
+    </div>
+    <div style="height: 100px"></div>
   </section>
 </template>
 
 <style scoped>
 .list {
   gap: 20px;
-
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+  overflow: hidden;
+  height: 100%;
+  padding: 10px;
+  overflow-y: auto;
 }
-.list-card {
+.list__scroll {
+  overflow: hidden;
+  display: flex;
+  gap: 20px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.list__card {
   width: 330px;
   height: 110px;
 }
