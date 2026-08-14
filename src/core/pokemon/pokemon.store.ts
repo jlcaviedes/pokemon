@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-import type { Pokemon } from "./pokemon.types";
-import { getPokemons } from "./pokemon.service";
+import { getPokemonByName, getPokemons } from "./pokemon.service";
+import type { Pokemon, PokemonDetail } from "./pokemon.types";
 
 export const usePokemonStore = defineStore("pokemon", () => {
+  const pokemonDetail = ref<PokemonDetail | null>(null);
   const pokemons = ref<Pokemon[]>([]);
   const favorites = ref<Number[]>([]);
   const loading = ref(false);
@@ -23,16 +24,31 @@ export const usePokemonStore = defineStore("pokemon", () => {
     }
   };
 
+  const getPokemon = async (name: string) => {
+    try {
+      loading.value = true;
+      error.value = null;
+
+      pokemonDetail.value = await getPokemonByName(name);
+    } catch (err) {
+      error.value = "No se pudo cargar el Pokémon";
+    } finally {
+      loading.value = false;
+    }
+  };
+
   const setFavorites = async (newFavorites: number[]) => {
     favorites.value = [...newFavorites];
   };
 
   return {
     pokemons,
+    pokemonDetail,
     loading,
     error,
-    loadPokemons,
     favorites,
+    getPokemon,
+    loadPokemons,
     setFavorites,
   };
 });

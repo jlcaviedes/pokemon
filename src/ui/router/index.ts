@@ -10,7 +10,7 @@ const router = createRouter({
 
   routes: [
     {
-      path: "/detail",
+      path: "/detail/:pokemonName",
       name: "detail",
       component: DetailView,
     },
