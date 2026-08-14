@@ -18,12 +18,8 @@ const typesFilter = ref<string[]>([]);
 const filtersSelected = ref<string[]>([]);
 const okRequest = ref(false);
 
-const handleScroll = () => {
-  const scrollPosition = window.innerHeight + window.scrollY;
-  const pageHeight = document.documentElement.scrollHeight;
-  if (scrollPosition >= pageHeight - 300) {
-    pokemonStore.nextGroupOfPokemons();
-  }
+const handleScrollDown = () => {
+  pokemonStore.nextGroupOfPokemons();
 };
 
 const load = async () => {
@@ -73,11 +69,6 @@ const onShowFilter = () => {
 
 onMounted(() => {
   load();
-  window.addEventListener("scroll", handleScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
 });
 </script>
 
@@ -109,8 +100,8 @@ onUnmounted(() => {
       :favorites="favorites"
       @select-favorites="onFavorites"
       @select-pokemon="onSelectPokemon"
+      @scroll-down="handleScrollDown"
     />
-    <div style="height: 300px"></div>
   </main>
   <Empty
     v-else
@@ -124,6 +115,8 @@ onUnmounted(() => {
 <style scoped>
 .pokedex {
   padding: 32px;
+  overflow: hidden;
+  height: 100%;
 }
 
 .pokedex__filters {
@@ -153,6 +146,8 @@ onUnmounted(() => {
 @media (max-width: 768px) {
   .pokedex {
     padding: 20px;
+    display: flex;
+    flex-direction: column;
   }
 
   .pokedex__header {
