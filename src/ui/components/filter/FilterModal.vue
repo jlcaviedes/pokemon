@@ -43,18 +43,24 @@ const cancel = () => {
 </script>
 
 <template>
-  <div v-if="open" class="modal-overlay" @click.self="cancel">
+  <div v-if="open" class="filter-modal__overlay" @click.self="cancel">
     <section class="filter-modal">
-      <header class="modal-header">
+      <header class="filter-modal__header">
         <h2>Filtra por tus preferencias</h2>
         <div class="filter-modal__close-button">
-          <button type="button" class="close-button" @click="cancel">×</button>
+          <button
+            type="button"
+            class="filter-modal__close-button"
+            @click="cancel"
+          >
+            ×
+          </button>
         </div>
       </header>
 
-      <div class="modal-content">
+      <div class="filter-modal__content">
         <div class="filter-modal__select">
-          <label class="select-label"> Tipo </label>
+          <label class="filter-modal__select-label"> Tipo </label>
           <Icon :name="ICONS.ArrowUp" />
         </div>
 
@@ -64,17 +70,17 @@ const cancel = () => {
               v-for="type in types"
               :key="type"
               type="button"
-              class="type-option"
+              class="filter-modal__type-option"
               :class="{
                 selected: selected.includes(type),
               }"
               @click="toggleType(type)"
             >
-              <span class="checkbox">
+              <span class="filter-modal__checkbox">
                 <span v-if="selected.includes(type)"> ✓ </span>
               </span>
 
-              <span class="type-name">
+              <span class="filter-modal__type-name">
                 {{ type }}
               </span>
             </button>
@@ -82,12 +88,16 @@ const cancel = () => {
         </div>
       </div>
 
-      <footer class="modal-footer">
-        <button type="button" class="cancel-button" @click="cancel">
+      <footer class="filter-modal__footer">
+        <button
+          type="button"
+          class="filter-modal__cancel-button"
+          @click="cancel"
+        >
           Cancelar
         </button>
 
-        <button type="button" class="apply-button" @click="apply">
+        <button type="button" class="filter-modal__apply-button" @click="apply">
           Aplicar
         </button>
       </footer>
@@ -105,91 +115,63 @@ const cancel = () => {
   overflow-y: auto;
 }
 
-.modal-overlay {
+.filter-modal__overlay {
   position: fixed;
-
   inset: 0;
-
   display: flex;
-
   justify-content: center;
   align-items: center;
-
   padding: 20px;
-
   background: rgb(0 0 0 / 45%);
-
   z-index: 2000;
 }
 
 .filter-modal {
   width: 100%;
   max-width: 420px;
-
   max-height: 80vh;
-
   display: flex;
   flex-direction: column;
-
   background: white;
-
   border-radius: 20px;
-
   box-shadow: 0 20px 50px rgb(0 0 0 / 20%);
 }
 
-/* HEADER */
-
-.modal-header {
+.filter-modal__header {
   display: flex;
-
   justify-content: space-between;
   align-items: center;
-
   padding: 20px 24px;
-
   border-bottom: 1px solid #eee;
   flex-direction: row-reverse;
 }
 
-.modal-header h2 {
+.filter-modal__header h2 {
   margin: 0;
-
   font-size: 20px;
 }
 
-.close-button {
+.filter-modal__close-button {
   width: 32px;
   height: 32px;
-
   border: none;
-
   background: transparent;
-
   font-size: 26px;
-
   color: #777;
-
   cursor: pointer;
 }
 
-/* CONTENT */
-
-.modal-content {
+.filter-modal__content {
   padding: 24px;
-
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
 }
 
-.select-label {
+.filter-modal__select-label {
   display: block;
-
   margin-bottom: 12px;
-
   font-size: 14px;
-
   font-weight: 600;
 }
 
@@ -200,109 +182,79 @@ const cancel = () => {
   overflow: hidden;
 }
 
-.type-option {
+.filter-modal__type-option {
   display: flex;
   flex-direction: row-reverse;
-
   align-items: center;
-
   gap: 10px;
-
   padding: 0px 12px;
-
   border: none;
-
   border-radius: 10px;
-
   background: white;
   color: #121212;
-
   cursor: pointer;
-
   transition: 0.2s ease;
   width: 100%;
 }
 
-/* CHECKBOX */
-
-.checkbox {
+.filter-modal__checkbox {
   width: 20px;
   height: 20px;
-
   display: flex;
-
   justify-content: center;
   align-items: center;
-
   flex-shrink: 0;
-
   border: 1px solid #bbb;
-
   border-radius: 5px;
-
   font-size: 13px;
 }
 
-.type-option.selected .checkbox {
+.filter-modal__type-option.selected .filter-modal__checkbox {
   background: #1f49b6;
   border-color: #222;
   color: white;
 }
 
-.type-name {
+.filter-modal__type-name {
   width: 100%;
   text-align: left;
   text-transform: capitalize;
   font-size: 14px;
 }
 
-/* FOOTER */
-
-.modal-footer {
+.filter-modal__footer {
   display: flex;
-
   justify-content: flex-end;
-
   gap: 10px;
-
   padding: 16px 24px;
-
   border-top: 1px solid #eee;
 }
 
-.cancel-button,
-.apply-button {
+.filter-modal__cancel-button,
+.filter-modal__apply-button {
   padding: 10px 18px;
-
   font-weight: 600;
-
   cursor: pointer;
   width: 100%;
 }
 
-.cancel-button {
+.filter-modal__cancel-button {
   border: 1px solid #ddd;
   color: #121212;
   background: #eeeeee;
 }
 
-/* MOBILE */
-
 @media (max-width: 600px) {
-  .modal-overlay {
+  .filter-modal__overlay {
     align-items: flex-end;
-
     padding: 0;
   }
 
-  .modal-header {
+  .filter-modal__header {
     display: flex;
-
     justify-content: space-between;
     align-items: center;
-
     padding: 20px 24px;
-
     border-bottom: 1px solid #eee;
     flex-direction: column-reverse;
   }
@@ -312,7 +264,7 @@ const cancel = () => {
     display: flex;
   }
 
-  .modal-footer {
+  .filter-modal__footer {
     flex-direction: column-reverse;
     justify-content: center;
     align-items: center;
@@ -320,9 +272,7 @@ const cancel = () => {
 
   .filter-modal {
     max-width: none;
-
     max-height: 85vh;
-
     border-radius: 20px 20px 0 0;
   }
 }

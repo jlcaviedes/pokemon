@@ -8,20 +8,21 @@ defineProps<{
 
 <template>
   <div class="attribute">
-    <span class="info-label">
+    <span class="attribute__info-label">
       <img :src="icon" alt="label" />
       {{ label }}
     </span>
-    <strong class="info-tag"> {{ text }} </strong>
+    <strong class="attribute__info-tag"> {{ text }} </strong>
   </div>
 </template>
+
 <style scoped>
 .attribute {
   display: flex;
   flex-direction: column;
 }
 
-.info-tag {
+.attribute__info-tag {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -31,7 +32,7 @@ defineProps<{
   border-radius: 12px;
 }
 
-.info-label {
+.attribute__info-label {
   color: #424242;
   font-size: 12px;
   font-weight: 600;
@@ -41,9 +42,8 @@ defineProps<{
   column-gap: 8px;
 }
 
-.info-tag strong {
+.attribute__info-tag strong {
   font-size: 15px;
-
   text-transform: capitalize;
 }
 </style>

@@ -26,6 +26,7 @@ export const usePokemonStore = defineStore("pokemon", () => {
 
     try {
       loading.value = true;
+      error.value = null;
       const newPokemons = await getPokemons(limit, offset.value);
 
       pokemons.value.push(...newPokemons);

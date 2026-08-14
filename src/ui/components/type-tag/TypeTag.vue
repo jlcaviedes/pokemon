@@ -20,12 +20,9 @@ defineProps<{
 
 .type-tag {
   padding: 3px 6px;
-
   border-radius: 48px;
-
   font-size: 11px;
   font-weight: 500;
-
   text-transform: capitalize;
   color: #fff;
   height: 25px;

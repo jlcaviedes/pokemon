@@ -22,7 +22,7 @@ const onFavorite = (pokemonId: number) => {
 <template>
   <section class="list">
     <PokemonCard
-      class="list-card"
+      class="list__card"
       v-for="pokemon in pokemons"
       :key="pokemon.id"
       :pokemon="pokemon"
@@ -36,13 +36,12 @@ const onFavorite = (pokemonId: number) => {
 <style scoped>
 .list {
   gap: 20px;
-
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
 }
-.list-card {
+.list__card {
   width: 330px;
   height: 110px;
 }

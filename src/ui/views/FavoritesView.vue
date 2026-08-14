@@ -17,8 +17,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <main class="pokemon-view" v-if="favorites.length">
-    <header class="pokemon-header">
+  <main class="favorites" v-if="favorites.length">
+    <header class="favorites__header">
       <h1>Favoritos</h1>
     </header>
     <PokemonList :pokemons="pokemons" :favorites="favorites" />
@@ -31,12 +31,12 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-.pokemon-view {
+.favorites {
   width: 100%;
   padding: 32px;
 }
 
-.pokemon-header {
+.favorites__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,11 +45,11 @@ onMounted(async () => {
 }
 
 @media (max-width: 768px) {
-  .pokemon-view {
+  .favorites {
     padding: 20px;
   }
 
-  .pokemon-header {
+  .favorites__header {
     flex-direction: column;
     align-items: stretch;
   }

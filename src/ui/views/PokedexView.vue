@@ -28,6 +28,7 @@ const handleScroll = () => {
 
 const load = async () => {
   await pokemonStore.preLoadPokemons();
+  console.log("load ", pokemonStore.error);
   okRequest.value = pokemonStore.error === null;
   await pokemonStore.loadTypes();
   pokemons.value = pokemonStore.pokemons;
@@ -81,7 +82,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <main v-if="okRequest" class="pokemon-view">
+  <main v-if="okRequest" class="pokedex">
     <FilterModal
       :open="filter"
       :types="typesFilter"
@@ -89,14 +90,14 @@ onUnmounted(() => {
       @close="onCancelFilter"
       @apply="onApplyFilter"
     />
-    <header class="pokemon-header">
+    <header class="pokedex__header">
       <Search @click-search="onShowFilter" />
-      <div v-if="filtersSelected.length" class="pokemon-view__filters">
+      <div v-if="filtersSelected.length" class="pokedex__filters">
         Se han encontrado {{ pokemons.length }} resultados
         <button
           type="button"
           @click="onEraseFilters"
-          class="pokemon-view__link-erase"
+          class="pokedex__link-erase"
         >
           Borrar filtro
         </button>
@@ -109,6 +110,7 @@ onUnmounted(() => {
       @select-favorites="onFavorites"
       @select-pokemon="onSelectPokemon"
     />
+    <div style="height: 300px"></div>
   </main>
   <Empty
     v-else
@@ -120,17 +122,17 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-.pokemon-view {
+.pokedex {
   padding: 32px;
 }
 
-.pokemon-view__filters {
+.pokedex__filters {
   display: flex;
   font-size: 14px;
   align-items: center;
 }
 
-.pokemon-view__link-erase {
+.pokedex__link-erase {
   color: #1e88e5;
   background-color: transparent;
   text-decoration: underline;
@@ -140,7 +142,7 @@ onUnmounted(() => {
   cursor: pointer;
 }
 
-.pokemon-header {
+.pokedex__header {
   display: flex;
   align-items: center;
   gap: 24px;
@@ -149,11 +151,11 @@ onUnmounted(() => {
 }
 
 @media (max-width: 768px) {
-  .pokemon-view {
+  .pokedex {
     padding: 20px;
   }
 
-  .pokemon-header {
+  .pokedex__header {
     flex-direction: column;
     align-items: stretch;
     padding-left: 0px;

@@ -16,20 +16,22 @@ const toggleFavorite = () => {
 
 <template>
   <article :class="`card bg-${pokemon.types[0]}`">
-    <div class="pokemon-image" :class="`bg-${pokemon.types[0]}-dark`">
+    <div class="card__container-image" :class="`bg-${pokemon.types[0]}-dark`">
       <div class="card__container-favorite">
         <FavoriteButton :favorite="favorite" @click.stop="toggleFavorite" />
       </div>
       <img :src="pokemon.image" :alt="pokemon.name" />
     </div>
 
-    <div class="info">
-      <span class="id"> Nº{{ pokemon.id.toString().padStart(3, "0") }} </span>
+    <div class="card__info">
+      <span class="card__id">
+        Nº{{ pokemon.id.toString().padStart(3, "0") }}
+      </span>
 
       <h2>
         {{ pokemon.name }}
       </h2>
-      <div class="pokemon-types">
+      <div class="card__types">
         <TypeTag
           v-for="type in pokemon.types"
           :key="type"
@@ -65,7 +67,7 @@ const toggleFavorite = () => {
   box-shadow: 0 8px 20px rgb(0 0 0 / 10%);
 }
 
-.pokemon-image {
+.card__container-image {
   position: relative;
   display: flex;
   justify-content: center;
@@ -77,28 +79,28 @@ const toggleFavorite = () => {
   border-radius: 16px;
 }
 
-.pokemon-image img {
+.card__container-image img {
   width: 80%;
   height: 80%;
 
   object-fit: contain;
 }
 
-.info {
+.card__info {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 16px;
 }
 
-.id {
+.card__id {
   display: block;
   color: #424242;
   font-size: 12px;
   font-weight: 600;
 }
 
-.info h2 {
+.card__info h2 {
   margin: 0;
   font-size: 21px;
   font-weight: 700;
@@ -115,7 +117,7 @@ const toggleFavorite = () => {
   justify-content: flex-end;
 }
 
-.pokemon-types {
+.card__types {
   display: flex;
   gap: 8px;
   flex-wrap: nowrap;

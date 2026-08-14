@@ -1,7 +1,4 @@
-<script setup lang="ts">
-import { ref } from "vue";
-const title = ref("Pokemon");
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="loading-view">
@@ -29,9 +26,7 @@ const title = ref("Pokemon");
 .pokeball {
   width: 100px;
   height: 100px;
-
   border-radius: 50%;
-
   background: linear-gradient(
     to bottom,
     #e3350d 0%,
@@ -41,29 +36,20 @@ const title = ref("Pokemon");
     #f5f5f5 53%,
     #f5f5f5 100%
   );
-
   border: 5px solid #222;
-
   position: relative;
-
   animation: rotate-pokeball 1.2s linear infinite;
 }
 
 .pokeball__center {
   position: absolute;
-
   width: 30px;
   height: 30px;
-
   border-radius: 50%;
-
   background: white;
-
   border: 5px solid #222;
-
   top: 50%;
   left: 50%;
-
   transform: translate(-50%, -50%);
 }
 
@@ -79,7 +65,6 @@ const title = ref("Pokemon");
 
 .loading-view p {
   margin-top: 24px;
-
   font-size: 18px;
   font-weight: 600;
 }

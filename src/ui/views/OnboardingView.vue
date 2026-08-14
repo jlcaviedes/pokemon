@@ -23,15 +23,15 @@ const nextStep = () => {
 
 <template>
   <main class="onboarding">
-    <section class="step" v-if="step == 0">
+    <section class="onboarding__step" v-if="step == 0">
       <div class="onboarding__step-1">
         <img
-          class="illustration onboarding__img-2"
+          class="onboarding__illustration onboarding__img-2"
           :src="spriteChild"
           alt="hilda"
         />
         <img
-          class="illustration onboarding__img-1"
+          class="onboarding__illustration onboarding__img-1"
           :src="spriteDoctor"
           alt="hilda"
         />
@@ -44,8 +44,8 @@ const nextStep = () => {
       </p>
     </section>
 
-    <section class="step" v-else-if="step == 1">
-      <img class="illustration" :src="spriteHilda" alt="hilda" />
+    <section class="onboarding__step" v-else-if="step == 1">
+      <img class="onboarding__illustration" :src="spriteHilda" alt="hilda" />
       <h1>Mantén tu Pokédex actualizada</h1>
       <p>
         Regístrate y guarda tu perfil, Pokémon favoritos, configuraciones y
@@ -53,7 +53,7 @@ const nextStep = () => {
       </p>
     </section>
 
-    <div class="indicators">
+    <div class="onboarding__indicators">
       <span :class="{ active: step === 0 }"></span>
       <span :class="{ active: step === 1 }"></span>
     </div>
@@ -64,12 +64,10 @@ const nextStep = () => {
 <style scoped>
 .onboarding {
   min-height: 100vh;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   padding: 24px;
 }
 
@@ -90,13 +88,13 @@ const nextStep = () => {
   left: 10px;
 }
 
-.step {
+.onboarding__step {
   width: 100%;
   text-align: center;
   width: 342px;
 }
 
-.illustration {
+.onboarding__illustration {
   margin-bottom: 32px;
   width: 251px;
   height: 258.59px;
@@ -114,20 +112,20 @@ p {
   font-size: 14px;
 }
 
-.indicators {
+.onboarding__indicators {
   display: flex;
   gap: 8px;
   margin-bottom: 32px;
 }
 
-.indicators span {
+.onboarding__indicators span {
   width: 9px;
   height: 9px;
   border-radius: 50%;
   background: #ccc;
 }
 
-.indicators span.active {
+.onboarding__indicators span.active {
   width: 28px;
   background: #4565b7;
   border-bottom-left-radius: 11px;

@@ -10,11 +10,11 @@ import weightIcon from "../../assets/icons/weight.svg";
 import heightIcon from "../../assets/icons/height.svg";
 import categoryIcon from "../../assets/icons/category.svg";
 import pokeballIcon from "../../assets/icons/pokeball.svg";
+import Empty from "../components/empty/Empty.vue";
 
 const route = useRoute();
 const pokemonStore = usePokemonStore();
-
-const isFavorite = ref(false);
+const okRequest = ref(false);
 
 const pokemon = ref({
   id: 0,
@@ -35,11 +35,13 @@ const pokemon = ref({
   favorite: false,
 });
 
-onMounted(async () => {
+const load = async () => {
   const { pokemonName } = route.params;
 
   if (pokemonName) {
     await pokemonStore.getPokemon(pokemonName as string);
+    okRequest.value = pokemonStore.error === null;
+
     const detail = pokemonStore.pokemonDetail;
     pokemon.value = {
       ...pokemon.value,
@@ -56,50 +58,49 @@ onMounted(async () => {
       weaknesses: detail?.weaknesses ?? [],
       favorite: pokemonStore.favorites.includes(detail?.id ?? 0),
     };
+  } else {
+    okRequest.value = false;
   }
+};
+
+onMounted(() => {
+  load();
 });
 </script>
 
 <template>
-  <main class="pokemon-detail">
-    <!-- IMAGE -->
-    <section class="pokemon-image-section">
-      <div
-        class="detail-view__moon"
-        :class="`bg-${pokemon.types[0]}-dark`"
-      ></div>
-      <div class="pokemon-detail__heart">
+  <main v-if="okRequest" class="detail">
+    <section class="detail__image-section">
+      <div class="detail__moon" :class="`bg-${pokemon.types[0]}-dark`"></div>
+      <div class="detail__heart">
         <FavoriteIcon :favorite="pokemon.favorite" />
       </div>
-      <img :src="pokemon.image" :alt="pokemon.name" class="pokemon-image" />
+      <img :src="pokemon.image" :alt="pokemon.name" class="detail__image" />
     </section>
 
-    <!-- NAME -->
-    <section class="pokemon-header">
+    <section class="detail__header">
       <h1>
         {{ pokemon.name }}
       </h1>
 
-      <span class="pokemon-number">
+      <span class="detail__number">
         #{{ pokemon.id.toString().padStart(3, "0") }}
       </span>
     </section>
 
-    <!-- TYPES -->
-    <section class="types">
+    <section class="detail__types">
       <TypeTag v-for="type in pokemon.types" :key="type" :type="type">
       </TypeTag>
     </section>
 
-    <!-- DESCRIPTION -->
-    <section class="description">
+    <section class="detail__description">
       <p>
         {{ pokemon.description }}
       </p>
     </section>
     <hr />
     <!-- INFORMATION -->
-    <section class="information">
+    <section class="detail__information">
       <Attribute
         label="Peso"
         :text="pokemon.weight + 'kg'"
@@ -125,35 +126,33 @@ onMounted(async () => {
       />
     </section>
 
-    <!-- GENDER -->
-    <section class="gender">
+    <section class="detail__gender">
       <h2>Género</h2>
 
-      <div class="gender-bar">
+      <div class="detail__gender-bar">
         <div
-          class="male"
+          class="detail__male"
           :style="{
             width: `${pokemon.gender.male}%`,
           }"
         />
         <div
-          class="female"
+          class="deatail__female"
           :style="{
             width: `${pokemon.gender.female}%`,
           }"
         />
       </div>
-      <div class="gender-values">
+      <div class="detail__gender-values">
         <span> ♂ {{ pokemon.gender.male }}% </span>
         <span> ♀ {{ pokemon.gender.female }}% </span>
       </div>
     </section>
 
-    <!-- WEAKNESSES -->
-    <section class="weaknesses">
+    <section class="detail__weaknesses">
       <h2>Debilidades</h2>
 
-      <div class="weakness-tags">
+      <div class="detail__weakness-tags">
         <TypeTag
           v-for="weakness in pokemon.weaknesses"
           :key="weakness"
@@ -164,10 +163,17 @@ onMounted(async () => {
       </div>
     </section>
   </main>
+  <Empty
+    v-else
+    title="Algo salió mal..."
+    description="No pudimos cargar la información en este momento. Verifica tu conexión o intenta nuevamente más tarde."
+    :isRetry="true"
+    @retry="load"
+  />
 </template>
 
 <style scoped>
-.detail-view__moon {
+.detail__moon {
   width: 500px;
   max-width: 500px;
   min-width: 500px;
@@ -178,13 +184,13 @@ onMounted(async () => {
   z-index: 50;
 }
 
-.pokemon-detail {
+.detail {
   max-width: 500px;
   margin: 0 auto;
   padding: 32px 24px 100px;
 }
 
-.pokemon-detail__heart {
+.detail__heart {
   display: flex;
   justify-content: flex-end;
   width: 280px;
@@ -194,7 +200,7 @@ onMounted(async () => {
 
 /* IMAGE */
 
-.pokemon-image-section {
+.detail__image-section {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -206,7 +212,7 @@ onMounted(async () => {
   overflow: hidden;
 }
 
-.pokemon-image {
+.detail__image {
   width: 150px;
   height: 150px;
   object-fit: contain;
@@ -215,11 +221,11 @@ onMounted(async () => {
 
 /* HEADER */
 
-.pokemon-header {
+.detail__header {
   text-align: left;
 }
 
-.pokemon-header h1 {
+.detail__header h1 {
   margin: 0;
 
   font-size: 32px;
@@ -228,7 +234,7 @@ onMounted(async () => {
   text-transform: capitalize;
 }
 
-.pokemon-number {
+.detail__number {
   display: block;
 
   margin-top: 6px;
@@ -242,7 +248,7 @@ onMounted(async () => {
 
 /* TYPES */
 
-.types {
+.detail__types {
   display: flex;
 
   justify-content: left;
@@ -267,7 +273,7 @@ onMounted(async () => {
 
 /* DESCRIPTION */
 
-.description {
+.detail__description {
   margin-top: 32px;
 
   color: #555;
@@ -279,7 +285,7 @@ onMounted(async () => {
 
 /* INFORMATION */
 
-.information {
+.detail__information {
   display: grid;
 
   grid-template-columns: repeat(2, 1fr);
@@ -291,18 +297,18 @@ onMounted(async () => {
 
 /* GENDER */
 
-.gender {
+.detail__gender {
   margin-top: 36px;
 }
 
-.gender h2,
-.weaknesses h2 {
+.detail__gender h2,
+.detail__weaknesses h2 {
   margin-bottom: 16px;
 
   font-size: 20px;
 }
 
-.gender-values {
+.detail__gender-values {
   display: flex;
 
   justify-content: space-between;
@@ -310,7 +316,7 @@ onMounted(async () => {
   margin-bottom: 8px;
 }
 
-.gender-bar {
+.detail__gender-bar {
   display: flex;
 
   width: 100%;
@@ -324,21 +330,21 @@ onMounted(async () => {
   background: #eee;
 }
 
-.female {
+.deatail__female {
   background: #e98ca5;
 }
 
-.male {
+.detail__male {
   background: #6ca8dc;
 }
 
 /* WEAKNESSES */
 
-.weaknesses {
+.detail__weaknesses {
   margin-top: 36px;
 }
 
-.weakness-tags {
+.detail__weakness-tags {
   display: flex;
 
   flex-wrap: wrap;
@@ -353,20 +359,20 @@ onMounted(async () => {
 /* MOBILE */
 
 @media (max-width: 600px) {
-  .pokemon-detail {
+  .detail {
     padding: 24px 16px 100px;
   }
 
-  .pokemon-image {
+  .detail__image {
     width: 220px;
     height: 220px;
   }
 
-  .pokemon-header h1 {
+  .detail__header h1 {
     font-size: 30px;
   }
 
-  .information {
+  .detail__information {
     grid-template-columns: 1fr;
   }
 }
