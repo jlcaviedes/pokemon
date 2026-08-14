@@ -49,6 +49,7 @@ export interface PokemonDetailResult {
   sprites: {
     other: {
       "official-artwork": { front_default: string };
+      showdown: { front_default: string };
     };
   };
   category: string;
@@ -58,6 +59,7 @@ export interface PokemonDetailResult {
     male: number;
   };
   weaknesses: string[];
+  color: string;
 }
 
 export interface PokemonDetail {
@@ -75,4 +77,5 @@ export interface PokemonDetail {
     male: number;
   };
   weaknesses: string[];
+  color: string;
 }

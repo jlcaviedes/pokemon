@@ -4,6 +4,7 @@ import { useRoute } from "vue-router";
 import { usePokemonStore } from "../../core/pokemon/pokemon.store";
 import FavoriteIcon from "../components/favorite/FavoriteIcon.vue";
 import Attribute from "../components/attribute/Attribute.vue";
+import TypeTag from "../components/type-tag/TypeTag.vue";
 
 import weightIcon from "../../assets/icons/weight.svg";
 import heightIcon from "../../assets/icons/height.svg";
@@ -14,10 +15,6 @@ const route = useRoute();
 const pokemonStore = usePokemonStore();
 
 const isFavorite = ref(false);
-
-const toggleFavorite = () => {
-  isFavorite.value = !isFavorite.value;
-};
 
 const pokemon = ref({
   id: 0,
@@ -65,12 +62,15 @@ onMounted(async () => {
 
 <template>
   <main class="pokemon-detail">
-    <div class="pokemon-detail__heart">
-      <FavoriteIcon :favorite="pokemon.favorite" />
-    </div>
-
     <!-- IMAGE -->
     <section class="pokemon-image-section">
+      <div
+        class="detail-view__moon"
+        :class="`bg-${pokemon.types[0]}-dark`"
+      ></div>
+      <div class="pokemon-detail__heart">
+        <FavoriteIcon :favorite="pokemon.favorite" />
+      </div>
       <img :src="pokemon.image" :alt="pokemon.name" class="pokemon-image" />
     </section>
 
@@ -87,9 +87,8 @@ onMounted(async () => {
 
     <!-- TYPES -->
     <section class="types">
-      <span v-for="type in pokemon.types" :key="type" class="type-tag">
-        {{ type }}
-      </span>
+      <TypeTag v-for="type in pokemon.types" :key="type" :type="type">
+      </TypeTag>
     </section>
 
     <!-- DESCRIPTION -->
@@ -155,48 +154,63 @@ onMounted(async () => {
       <h2>Debilidades</h2>
 
       <div class="weakness-tags">
-        <span
+        <TypeTag
           v-for="weakness in pokemon.weaknesses"
           :key="weakness"
-          class="weakness-tag"
+          :type="weakness"
         >
           {{ weakness }}
-        </span>
+        </TypeTag>
       </div>
     </section>
   </main>
 </template>
 
 <style scoped>
+.detail-view__moon {
+  width: 500px;
+  max-width: 500px;
+  min-width: 500px;
+  height: 500px;
+  position: absolute;
+  border-radius: 100%;
+  top: -230px;
+  z-index: 50;
+}
+
 .pokemon-detail {
-  max-width: 700px;
-
+  max-width: 500px;
   margin: 0 auto;
-
   padding: 32px 24px 100px;
 }
 
 .pokemon-detail__heart {
   display: flex;
   justify-content: flex-end;
+  width: 280px;
+  z-index: 100;
+  padding: 50px 0px;
 }
 
 /* IMAGE */
 
 .pokemon-image-section {
   display: flex;
-
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-
+  position: relative;
   margin-bottom: 24px;
+  max-height: 360px;
+  height: 360px;
+  overflow: hidden;
 }
 
 .pokemon-image {
-  width: 280px;
-  height: 280px;
-
+  width: 150px;
+  height: 150px;
   object-fit: contain;
+  z-index: 100;
 }
 
 /* HEADER */
@@ -231,7 +245,7 @@ onMounted(async () => {
 .types {
   display: flex;
 
-  justify-content: center;
+  justify-content: left;
 
   gap: 8px;
 
@@ -249,10 +263,6 @@ onMounted(async () => {
   font-weight: 600;
 
   text-transform: capitalize;
-}
-
-.type-tag {
-  background: #f8d030;
 }
 
 /* DESCRIPTION */

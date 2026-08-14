@@ -63,7 +63,8 @@ export const getPokemons = async (
       return {
         id: detail.id,
         name: detail.name,
-        image: detail.sprites.other["official-artwork"].front_default,
+        // image: detail.sprites.other["official-artwork"].front_default,
+        image: detail.sprites.other["showdown"].front_default,
         types: detail.types.map(
           (type: { type: { name: string } }) => type.type.name,
         ),
@@ -88,6 +89,7 @@ export const getPokemonByName = async (
 
   const pokemon = await pokemonResponse.json();
   const species = await speciesResponse.json();
+  console.log(species);
 
   const description =
     species.flavor_text_entries.find(
@@ -97,6 +99,8 @@ export const getPokemonByName = async (
   const category =
     species.genera.find((entry: any) => entry.language.name === "es")?.genus ??
     "";
+
+  const color = species.color.name ?? "";
 
   const categorySplit = category.split(" ") as string[];
 
@@ -115,6 +119,7 @@ export const getPokemonByName = async (
       male,
     },
     weaknesses: [],
+    color,
   };
   let pokemonMap = pokemonMapping(result);
   const weaknesses = await getPokemonWeaknesses(pokemonMap.types);

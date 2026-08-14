@@ -60,5 +60,9 @@ const onClickDisplay = () => {
   .search-container {
     width: 100%;
   }
+
+  .search-container__search {
+    width: 100%;
+  }
 }
 </style>

@@ -121,7 +121,6 @@ onUnmounted(() => {
 
 <style scoped>
 .pokemon-view {
-  width: 100%;
   padding: 32px;
 }
 
@@ -146,6 +145,7 @@ onUnmounted(() => {
   align-items: center;
   gap: 24px;
   margin-bottom: 32px;
+  padding-left: 20px;
 }
 
 @media (max-width: 768px) {
@@ -156,6 +156,7 @@ onUnmounted(() => {
   .pokemon-header {
     flex-direction: column;
     align-items: stretch;
+    padding-left: 0px;
   }
 }
 </style>
