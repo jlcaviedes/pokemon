@@ -10,15 +10,28 @@ export const usePokemonStore = defineStore("pokemon", () => {
   const favorites = ref<Number[]>([]);
   const loading = ref(false);
   const error = ref<string | null>(null);
+  const hasMore = ref(true);
+  const limit = 20;
+  const offset = ref(0);
 
-  const loadPokemons = async (limit = 20, offset = 0) => {
+  const nextGroupOfPokemons = async () => {
+    if (loading.value || !hasMore.value) {
+      return;
+    }
+
     try {
       loading.value = true;
-      error.value = null;
+      const newPokemons = await getPokemons(limit, offset.value);
 
-      pokemons.value = await getPokemons(limit, offset);
-    } catch (err) {
-      error.value = "No se pudieron cargar los Pokémon";
+      pokemons.value.push(...newPokemons);
+
+      offset.value += limit;
+
+      if (newPokemons.length < limit) {
+        hasMore.value = false;
+      }
+    } catch (error) {
+      console.error("Error cargando Pokémon:", error);
     } finally {
       loading.value = false;
     }
@@ -41,6 +54,12 @@ export const usePokemonStore = defineStore("pokemon", () => {
     favorites.value = [...newFavorites];
   };
 
+  const getPokemonsByFavorites = () => {
+    return pokemons.value.filter((pokemon: Pokemon) =>
+      favorites.value.includes(pokemon.id),
+    );
+  };
+
   return {
     pokemons,
     pokemonDetail,
@@ -48,7 +67,11 @@ export const usePokemonStore = defineStore("pokemon", () => {
     error,
     favorites,
     getPokemon,
-    loadPokemons,
+    getPokemonsByFavorites,
+    nextGroupOfPokemons,
+    async preLoadPokemons() {
+      if (!pokemons.value.length) await nextGroupOfPokemons();
+    },
     setFavorites,
   };
 });

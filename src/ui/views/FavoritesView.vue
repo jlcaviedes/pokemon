@@ -11,11 +11,8 @@ const pokemons = ref<Pokemon[]>([]);
 const favorites = ref<Number[]>([]);
 
 onMounted(async () => {
-  await pokemonStore.loadPokemons();
   favorites.value = pokemonStore.favorites;
-  pokemons.value = pokemonStore.pokemons.filter((pokemon) =>
-    favorites.value.includes(pokemon.id),
-  );
+  pokemons.value = pokemonStore.getPokemonsByFavorites();
 });
 </script>
 
