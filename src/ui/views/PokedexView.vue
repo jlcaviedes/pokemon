@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import type { Pokemon } from "../../core/pokemon/pokemon.types";
 
 import { usePokemonStore } from "../../core/pokemon/pokemon.store.ts";
@@ -12,8 +12,16 @@ const pokemons = ref<Pokemon[]>([]);
 const favorites = ref<Number[]>([]);
 const search = ref("");
 
+const handleScroll = () => {
+  const scrollPosition = window.innerHeight + window.scrollY;
+  const pageHeight = document.documentElement.scrollHeight;
+  if (scrollPosition >= pageHeight - 300) {
+    pokemonStore.nextGroupOfPokemons();
+  }
+};
+
 const load = async () => {
-  await pokemonStore.loadPokemons();
+  await pokemonStore.preLoadPokemons();
   pokemons.value = pokemonStore.pokemons;
   favorites.value = pokemonStore.favorites;
 };
@@ -29,6 +37,11 @@ const onSelectPokemon = (pokemonName: string) => {
 
 onMounted(() => {
   load();
+  window.addEventListener("scroll", handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
 });
 </script>
 
