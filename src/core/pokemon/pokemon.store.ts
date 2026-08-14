@@ -35,8 +35,8 @@ export const usePokemonStore = defineStore("pokemon", () => {
       if (newPokemons.length < limit) {
         hasMore.value = false;
       }
-    } catch (error) {
-      console.error("Error cargando Pokémon:", error);
+    } catch (err) {
+      error.value = "No se pudo cargar el Pokémon";
     } finally {
       loading.value = false;
     }

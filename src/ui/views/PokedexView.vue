@@ -7,6 +7,7 @@ import PokemonList from "../components/list/List.vue";
 import FilterModal from "../components/filter/FilterModal.vue";
 import Search from "../components/search/Search.vue";
 import router from "../router/index.ts";
+import Empty from "../components/empty/Empty.vue";
 
 const pokemonStore = usePokemonStore();
 const pokemons = ref<Pokemon[]>([]);
@@ -15,6 +16,7 @@ const search = ref("");
 const filter = ref(false);
 const typesFilter = ref<string[]>([]);
 const filtersSelected = ref<string[]>([]);
+const okRequest = ref(false);
 
 const handleScroll = () => {
   const scrollPosition = window.innerHeight + window.scrollY;
@@ -26,6 +28,7 @@ const handleScroll = () => {
 
 const load = async () => {
   await pokemonStore.preLoadPokemons();
+  okRequest.value = pokemonStore.error === null;
   await pokemonStore.loadTypes();
   pokemons.value = pokemonStore.pokemons;
   favorites.value = pokemonStore.favorites;
@@ -78,7 +81,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <main class="pokemon-view">
+  <main v-if="okRequest" class="pokemon-view">
     <FilterModal
       :open="filter"
       :types="typesFilter"
@@ -107,6 +110,13 @@ onUnmounted(() => {
       @select-pokemon="onSelectPokemon"
     />
   </main>
+  <Empty
+    v-else
+    title="Algo salió mal..."
+    description="No pudimos cargar la información en este momento. Verifica tu conexión o intenta nuevamente más tarde."
+    :isRetry="true"
+    @retry="load"
+  />
 </template>
 
 <style scoped>
