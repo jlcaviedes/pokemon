@@ -1,6 +1,21 @@
-import type { Pokemon, PokemonResponse } from "./pokemon.types";
+import { pokemonMapping } from "./pokemon.mapping";
+import type { Pokemon, PokemonDetail, PokemonResponse } from "./pokemon.types";
 
 const API_URL = "https://pokeapi.co/api/v2";
+
+const getPokemonWeaknesses = async (types: string[]): Promise<string[]> => {
+  const responses = await Promise.all(
+    types.map((type) => fetch(`${API_URL}/type/${type}`)),
+  );
+
+  const data = await Promise.all(responses.map((response) => response.json()));
+
+  const weaknesses = data.flatMap(
+    (type) => type.damage_relations.double_damage_from,
+  );
+
+  return [...new Set(weaknesses.map((weakness) => weakness.name))];
+};
 
 export const getPokemons = async (
   limit = 20,
@@ -38,4 +53,51 @@ export const getPokemons = async (
   );
 
   return pokemons;
+};
+
+export const getPokemonByName = async (
+  name: string,
+): Promise<PokemonDetail> => {
+  const [pokemonResponse, speciesResponse] = await Promise.all([
+    fetch(`${API_URL}/pokemon/${name}`),
+    fetch(`${API_URL}/pokemon-species/${name}`),
+  ]);
+
+  if (!pokemonResponse.ok || !speciesResponse.ok) {
+    throw new Error("No se pudo obtener el Pokémon");
+  }
+
+  const pokemon = await pokemonResponse.json();
+  const species = await speciesResponse.json();
+
+  const description =
+    species.flavor_text_entries.find(
+      (entry: any) => entry.language.name === "es",
+    )?.flavor_text ?? "";
+
+  const category =
+    species.genera.find((entry: any) => entry.language.name === "es")?.genus ??
+    "";
+
+  const categorySplit = category.split(" ") as string[];
+
+  const femaleRate = species.gender_rate;
+
+  const female = femaleRate === -1 ? 0 : (femaleRate / 8) * 100;
+
+  const male = femaleRate === -1 ? 0 : 100 - female;
+
+  const result = {
+    ...pokemon,
+    description,
+    category: categorySplit.reverse()[0],
+    gender: {
+      female,
+      male,
+    },
+    weaknesses: [],
+  };
+  let pokemonMap = pokemonMapping(result);
+  const weaknesses = await getPokemonWeaknesses(pokemonMap.types);
+  return { ...pokemonMap, weaknesses };
 };

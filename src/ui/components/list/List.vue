@@ -27,6 +27,7 @@ const onFavorite = (pokemonId: number) => {
       :pokemon="pokemon"
       :favorite="favorites.includes(pokemon.id)"
       @click-favorite="onFavorite(pokemon.id)"
+      @click="() => emit('select-pokemon', pokemon.name)"
     />
   </section>
 </template>
