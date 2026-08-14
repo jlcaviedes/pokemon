@@ -17,6 +17,7 @@ const filter = ref(false);
 const typesFilter = ref<string[]>([]);
 const filtersSelected = ref<string[]>([]);
 const okRequest = ref(false);
+const pokemonList = ref<InstanceType<typeof PokemonList> | null>(null);
 
 const handleScrollDown = () => {
   pokemonStore.nextGroupOfPokemons();
@@ -24,7 +25,6 @@ const handleScrollDown = () => {
 
 const load = async () => {
   await pokemonStore.preLoadPokemons();
-  console.log("load ", pokemonStore.error);
   okRequest.value = pokemonStore.error === null;
   await pokemonStore.loadTypes();
   pokemons.value = pokemonStore.pokemons;
@@ -69,6 +69,11 @@ const onShowFilter = () => {
 
 onMounted(() => {
   load();
+  const intervalId = setInterval(() => {
+    !pokemonList.value?.hasScroll()
+      ? pokemonStore.nextGroupOfPokemons()
+      : clearInterval(intervalId);
+  }, 1000);
 });
 </script>
 
@@ -95,6 +100,7 @@ onMounted(() => {
       </div>
     </header>
     <PokemonList
+      ref="pokemonList"
       :search="search"
       :pokemons="pokemons"
       :favorites="favorites"
