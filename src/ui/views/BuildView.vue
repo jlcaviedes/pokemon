@@ -3,10 +3,10 @@ import spriteFish from "../../assets/images/jigglypuff.png";
 </script>
 
 <template>
-  <main class="regions">
-    <section class="regions__container">
+  <main class="build">
+    <section class="build__container">
       <div>
-        <img class="regions__illustration" :src="spriteFish" alt="fish" />
+        <img class="build__illustration" :src="spriteFish" alt="fish" />
       </div>
 
       <h1>¡Muy pronto disponible!</h1>
@@ -19,7 +19,7 @@ import spriteFish from "../../assets/images/jigglypuff.png";
 </template>
 
 <style scoped>
-.regions {
+.build {
   min-height: 100vh;
 
   display: flex;
@@ -30,7 +30,7 @@ import spriteFish from "../../assets/images/jigglypuff.png";
   padding: 24px;
 }
 
-.regions__container {
+.build__container {
   width: 100%;
   height: 100%;
   text-align: center;
@@ -40,7 +40,7 @@ import spriteFish from "../../assets/images/jigglypuff.png";
   align-items: center;
 }
 
-.regions__illustration {
+.build__illustration {
   width: 169px;
   height: 210px;
   object-fit: cover;
