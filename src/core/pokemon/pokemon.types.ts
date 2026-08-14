@@ -2,6 +2,12 @@ export interface Pokemon {
   id: number;
   name: string;
   image: string;
+  types: string[];
+}
+
+export interface PokemonType {
+  name: string;
+  url: string;
 }
 
 export interface PokemonResponse {
@@ -9,6 +15,11 @@ export interface PokemonResponse {
   next: string | null;
   previous: string | null;
   results: PokemonResult[];
+}
+
+export interface PokemonTypesResponse {
+  count: number;
+  results: PokemonType[];
 }
 
 export interface PokemonResult {

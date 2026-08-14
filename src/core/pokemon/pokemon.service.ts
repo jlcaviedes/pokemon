@@ -1,5 +1,10 @@
 import { pokemonMapping } from "./pokemon.mapping";
-import type { Pokemon, PokemonDetail, PokemonResponse } from "./pokemon.types";
+import type {
+  Pokemon,
+  PokemonDetail,
+  PokemonResponse,
+  PokemonTypesResponse,
+} from "./pokemon.types";
 
 const API_URL = "https://pokeapi.co/api/v2";
 
@@ -15,6 +20,20 @@ const getPokemonWeaknesses = async (types: string[]): Promise<string[]> => {
   );
 
   return [...new Set(weaknesses.map((weakness) => weakness.name))];
+};
+
+export const getPokemonTypes = async (): Promise<string[]> => {
+  const response = await fetch(`${API_URL}/type`);
+
+  if (!response.ok) {
+    throw new Error("No se pudieron obtener los tipos de Pokémon");
+  }
+
+  const data: PokemonTypesResponse = await response.json();
+
+  return data.results
+    .map((type) => type.name)
+    .filter((type) => type !== "unknown" && type !== "shadow");
 };
 
 export const getPokemons = async (

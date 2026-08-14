@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import searchIcon from "../../../assets/icons/search.png";
+const emit = defineEmits<{ "click-search": [] }>();
+const onClickDisplay = () => {
+  emit("click-search");
+};
 </script>
 
 <template>
   <div class="search-container">
-    <div class="search-container__search">
+    <div class="search-container__search" @click.stop="onClickDisplay">
       <img :src="searchIcon" alt="Search" />
       <input v-model="search" type="search" placeholder="Procurar Pókemon..." />
     </div>
