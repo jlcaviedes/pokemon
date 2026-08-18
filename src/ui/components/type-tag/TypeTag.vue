@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import Element from "../element/Element.vue";
+import { useI18n } from "vue-i18n";
 
 defineProps<{
   type: string;
 }>();
 
 const iconShow = ["fire", "grass", "poison", "psychic", "ice", "flying"];
+
+const { t } = useI18n();
 </script>
 
 <template>
   <span class="type-tag__element type-tag" :class="`bg-${type}-dark`">
     <Element :name="type" v-if="iconShow.includes(type)" class="type__left" />
-    <div>{{ type }}</div>
+    <div>{{ t(type) }}</div>
   </span>
 </template>
 
