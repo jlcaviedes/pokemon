@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import type { Pokemon } from "../../core/pokemon/pokemon.types";
 
 import { usePokemonStore } from "../../core/pokemon/pokemon.store.ts";
-import PokemonList from "../components/list/List.vue";
+import Empty from "../components/empty/Empty.vue";
 import FilterModal from "../components/filter/FilterModal.vue";
+import PokemonList from "../components/list/List.vue";
 import Search from "../components/search/Search.vue";
 import router from "../router/index.ts";
-import Empty from "../components/empty/Empty.vue";
+import { useI18n } from "vue-i18n";
 
+const { t } = useI18n();
 const pokemonStore = usePokemonStore();
 const pokemons = ref<Pokemon[]>([]);
 const favorites = ref<Number[]>([]);
@@ -95,7 +97,7 @@ onMounted(() => {
     />
     <header class="pokedex__header">
       <Search
-        :search="filtersSelected.join(', ')"
+        :search="filtersSelected.map(t).join(', ')"
         @click-search="onShowFilter"
       />
       <div v-if="filtersSelected.length" class="pokedex__filters">

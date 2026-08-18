@@ -2,6 +2,8 @@
 import { ref, watch } from "vue";
 import Icon from "../icon/Icon.vue";
 import { ICONS } from "../icon/icon.types";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 const props = defineProps<{
   open: boolean;
@@ -81,7 +83,7 @@ const cancel = () => {
               </span>
 
               <span class="filter-modal__type-name">
-                {{ type }}
+                {{ t(type) }}
               </span>
               <div :class="`bg-${type}-dark filter-modal__type-circle`"></div>
             </button>
