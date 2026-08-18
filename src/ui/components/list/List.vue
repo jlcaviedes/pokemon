@@ -61,21 +61,16 @@ defineExpose({ hasScroll });
 <template>
   <section class="list" ref="divElement">
     <div class="list__scroll">
-      <div
-        class="list__card-wrapper"
-        :class="isDeleteCard ? 'list__card--move' : ''"
-      >
-        <PokemonCard
-          class="list__card"
-          v-for="pokemon in pokemons"
-          :key="pokemon.id"
-          :pokemon="pokemon"
-          :favorite="favorites.includes(pokemon.id)"
-          @click-favorite="onFavorite(pokemon.id)"
-          @click-card="() => emit('select-pokemon', pokemon.name)"
-          @click-lond-press="() => onDeleteCard()"
-        />
-      </div>
+      <PokemonCard
+        class="list__card"
+        v-for="pokemon in pokemons"
+        :key="pokemon.id"
+        :pokemon="pokemon"
+        :favorite="favorites.includes(pokemon.id)"
+        @click-favorite="onFavorite(pokemon.id)"
+        @click-card="() => emit('select-pokemon', pokemon.name)"
+        @click-lond-press="() => onDeleteCard()"
+      />
     </div>
     <div style="height: 100px"></div>
   </section>
@@ -111,19 +106,6 @@ defineExpose({ hasScroll });
 .list__card {
   width: 330px;
   height: 110px;
-}
-
-.list__card-wrapper {
-  display: flex;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
-  width: fit-content;
-  height: fit-content;
-  animation: alternate;
-}
-
-.list__card--move {
-  padding-right: 30px;
 }
 
 @media (max-width: 768px) {
