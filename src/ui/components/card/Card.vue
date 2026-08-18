@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import type { Pokemon } from "../../../core/pokemon/pokemon.types";
 import FavoriteButton from "../favorite/FavoriteButton.vue";
 import TypeTag from "../type-tag/TypeTag.vue";
@@ -12,10 +13,44 @@ const emit = defineEmits();
 const toggleFavorite = () => {
   emit("click-favorite");
 };
+
+const timer = ref<ReturnType<typeof setTimeout> | null>(null);
+const longPress = ref(false);
+
+const startPress = () => {
+  longPress.value = false;
+  timer.value = setTimeout(() => {
+    longPress.value = true;
+    emit("click-lond-press");
+  }, 600);
+};
+
+const endPress = () => {
+  if (timer.value) {
+    clearTimeout(timer.value);
+    timer.value = null;
+  }
+};
+
+const handleClick = () => {
+  if (longPress.value) {
+    return;
+  }
+
+  emit("click-card");
+};
 </script>
 
 <template>
-  <article :class="`card bg-${pokemon.types[0]}`">
+  <article
+    :class="`card bg-${pokemon.types[0]}`"
+    @click="handleClick"
+    @mousedown="startPress"
+    @mouseup="endPress"
+    @mouseleave="endPress"
+    @touchstart="startPress"
+    @touchend="endPress"
+  >
     <div class="card__container-image" :class="`bg-${pokemon.types[0]}-dark`">
       <div class="card__container-favorite">
         <FavoriteButton :favorite="favorite" @click.stop="toggleFavorite" />
