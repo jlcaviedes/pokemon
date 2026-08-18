@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import Element from "../element/Element.vue";
 import { useI18n } from "vue-i18n";
+const { t } = useI18n();
 
 defineProps<{
   type: string;
 }>();
 
 const iconShow = ["fire", "grass", "poison", "psychic", "ice", "flying"];
-
-const { t } = useI18n();
 </script>
 
 <template>
