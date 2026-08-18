@@ -8,6 +8,8 @@ defineProps<{
 }>();
 
 const iconShow = ["fire", "grass", "poison", "psychic", "ice", "flying"];
+
+const { t } = useI18n();
 </script>
 
 <template>
