@@ -70,98 +70,100 @@ onMounted(() => {
 
 <template>
   <main v-if="okRequest" class="detail">
-    <section class="detail__image-section">
-      <div class="detail__moon" :class="`bg-${pokemon.types[0]}-dark`"></div>
-      <div class="detail__heart">
-        <FavoriteIcon :favorite="pokemon.favorite" />
-      </div>
-      <img :src="pokemon.image" :alt="pokemon.name" class="detail__image" />
-    </section>
+    <div>
+      <section class="detail__image-section">
+        <div class="detail__moon" :class="`bg-${pokemon.types[0]}-dark`"></div>
+        <div class="detail__heart">
+          <FavoriteIcon :favorite="pokemon.favorite" />
+        </div>
+        <img :src="pokemon.image" :alt="pokemon.name" class="detail__image" />
+      </section>
 
-    <section class="detail__header">
-      <h1>
-        {{ pokemon.name }}
-      </h1>
+      <section class="detail__header">
+        <h1>
+          {{ pokemon.name }}
+        </h1>
 
-      <span class="detail__number">
-        #{{ pokemon.id.toString().padStart(3, "0") }}
-      </span>
-    </section>
+        <span class="detail__number">
+          #{{ pokemon.id.toString().padStart(3, "0") }}
+        </span>
+      </section>
 
-    <section class="detail__types">
-      <TypeTag v-for="type in pokemon.types" :key="type" :type="type">
-      </TypeTag>
-    </section>
-
-    <section class="detail__description">
-      <p>
-        {{ pokemon.description }}
-      </p>
-    </section>
-    <hr />
-    <!-- INFORMATION -->
-    <section class="detail__information">
-      <Attribute
-        label="Peso"
-        :text="pokemon.weight + 'kg'"
-        :icon="weightIcon"
-      />
-
-      <Attribute
-        label="Altura"
-        :text="pokemon.height + 'm'"
-        :icon="heightIcon"
-      />
-
-      <Attribute
-        label="Categoría"
-        :text="pokemon.category"
-        :icon="categoryIcon"
-      />
-
-      <Attribute
-        label="Habilidad"
-        :text="pokemon.abilities[0]"
-        :icon="pokeballIcon"
-      />
-    </section>
-
-    <section class="detail__gender">
-      <h2>Género</h2>
-
-      <div class="detail__gender-bar">
-        <div
-          class="detail__male"
-          :style="{
-            width: `${pokemon.gender.male}%`,
-          }"
-        />
-        <div
-          class="deatail__female"
-          :style="{
-            width: `${pokemon.gender.female}%`,
-          }"
-        />
-      </div>
-      <div class="detail__gender-values">
-        <span> ♂ {{ pokemon.gender.male }}% </span>
-        <span> ♀ {{ pokemon.gender.female }}% </span>
-      </div>
-    </section>
-
-    <section class="detail__weaknesses">
-      <h2>Debilidades</h2>
-
-      <div class="detail__weakness-tags">
-        <TypeTag
-          v-for="weakness in pokemon.weaknesses"
-          :key="weakness"
-          :type="weakness"
-        >
-          {{ weakness }}
+      <section class="detail__types">
+        <TypeTag v-for="type in pokemon.types" :key="type" :type="type">
         </TypeTag>
-      </div>
-    </section>
+      </section>
+
+      <section class="detail__description">
+        <p>
+          {{ pokemon.description }}
+        </p>
+      </section>
+      <hr />
+      <!-- INFORMATION -->
+      <section class="detail__information">
+        <Attribute
+          label="Peso"
+          :text="pokemon.weight + 'kg'"
+          :icon="weightIcon"
+        />
+
+        <Attribute
+          label="Altura"
+          :text="pokemon.height + 'm'"
+          :icon="heightIcon"
+        />
+
+        <Attribute
+          label="Categoría"
+          :text="pokemon.category"
+          :icon="categoryIcon"
+        />
+
+        <Attribute
+          label="Habilidad"
+          :text="pokemon.abilities[0]"
+          :icon="pokeballIcon"
+        />
+      </section>
+
+      <section class="detail__gender">
+        <h2>Género</h2>
+
+        <div class="detail__gender-bar">
+          <div
+            class="detail__male"
+            :style="{
+              width: `${pokemon.gender.male}%`,
+            }"
+          />
+          <div
+            class="deatail__female"
+            :style="{
+              width: `${pokemon.gender.female}%`,
+            }"
+          />
+        </div>
+        <div class="detail__gender-values">
+          <span> ♂ {{ pokemon.gender.male }}% </span>
+          <span> ♀ {{ pokemon.gender.female }}% </span>
+        </div>
+      </section>
+
+      <section class="detail__weaknesses">
+        <h2>Debilidades</h2>
+
+        <div class="detail__weakness-tags">
+          <TypeTag
+            v-for="weakness in pokemon.weaknesses"
+            :key="weakness"
+            :type="weakness"
+          >
+            {{ weakness }}
+          </TypeTag>
+        </div>
+      </section>
+    </div>
   </main>
   <Empty
     v-else

@@ -5,10 +5,20 @@ import type { Pokemon } from "../../core/pokemon/pokemon.types";
 import { usePokemonStore } from "../../core/pokemon/pokemon.store.ts";
 import Empty from "../components/empty/Empty.vue";
 import PokemonList from "../components/list/List.vue";
+import router from "../router/index.ts";
 
 const pokemonStore = usePokemonStore();
 const pokemons = ref<Pokemon[]>([]);
 const favorites = ref<Number[]>([]);
+
+const onFavorites = (newFavorites: number[]) => {
+  pokemonStore.setFavorites(newFavorites);
+  favorites.value = newFavorites;
+};
+
+const onSelectPokemon = (pokemonName: string) => {
+  router.push(`/detail/${pokemonName}`);
+};
 
 onMounted(async () => {
   favorites.value = pokemonStore.favorites;
@@ -21,7 +31,11 @@ onMounted(async () => {
     <header class="favorites__header">
       <h1>Favoritos</h1>
     </header>
-    <PokemonList :pokemons="pokemons" :favorites="favorites" />
+    <PokemonList
+      :pokemons="pokemons"
+      :favorites="favorites"
+      @select-pokemon="onSelectPokemon"
+    />
   </main>
   <Empty
     v-else

@@ -21,6 +21,16 @@ const pokemonList = ref<InstanceType<typeof PokemonList> | null>(null);
 
 const handleScrollDown = () => {
   pokemonStore.nextGroupOfPokemons();
+  if (filtersSelected.value.length) {
+    applyFilter();
+  }
+};
+
+const applyFilter = () => {
+  const filters = new Set(filtersSelected.value);
+  pokemons.value = pokemons.value.filter((pokemon) =>
+    pokemon.types.some((type) => filters.has(type)),
+  );
 };
 
 const load = async () => {
@@ -53,10 +63,7 @@ const onApplyFilter = (newFilters: string[]) => {
     pokemons.value = pokemonStore.pokemons;
     return;
   }
-  const filters = new Set(newFilters);
-  pokemons.value = pokemons.value.filter((pokemon) =>
-    pokemon.types.some((type) => filters.has(type)),
-  );
+  applyFilter();
 };
 
 const onCancelFilter = () => {
@@ -87,7 +94,10 @@ onMounted(() => {
       @apply="onApplyFilter"
     />
     <header class="pokedex__header">
-      <Search @click-search="onShowFilter" />
+      <Search
+        :search="filtersSelected.join(', ')"
+        @click-search="onShowFilter"
+      />
       <div v-if="filtersSelected.length" class="pokedex__filters">
         Se han encontrado {{ pokemons.length }} resultados
         <button

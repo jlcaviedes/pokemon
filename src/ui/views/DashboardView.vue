@@ -21,6 +21,8 @@ import Sidebar from "../components/sidebar/Sidebar.vue";
 .dashboard__content {
   margin-left: 240px;
   width: 100%;
+  overflow-y: auto;
+  height: 100%;
 }
 
 @media (max-width: 768px) {

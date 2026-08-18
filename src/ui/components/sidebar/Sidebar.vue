@@ -7,22 +7,38 @@ import profileIcon from "../../../assets/icons/user.png";
 
 <template>
   <aside class="sidebar">
-    <router-link class="sidebar__item" to="/pokedex">
+    <router-link
+      class="sidebar__item"
+      active-class="sidebar__active"
+      to="/pokedex"
+    >
       <img :src="pokedexIcon" alt="Pokedex" />
       <span>Pokedex</span>
     </router-link>
 
-    <router-link class="sidebar__item" to="/regions">
+    <router-link
+      class="sidebar__item"
+      to="/regions"
+      active-class="sidebar__active"
+    >
       <img :src="regionsIcon" alt="Regions" />
       <span>Regiones</span>
     </router-link>
 
-    <router-link class="sidebar__item" to="/favorites">
+    <router-link
+      class="sidebar__item"
+      to="/favorites"
+      active-class="sidebar__active"
+    >
       <img :src="favoritesIcon" alt="favorites" />
       <span>favoritos</span>
     </router-link>
 
-    <router-link class="sidebar__item" to="/profile">
+    <router-link
+      class="sidebar__item"
+      to="/profile"
+      active-class="sidebar__active"
+    >
       <img :src="profileIcon" alt="Profile" />
       <span>Perfil</span>
     </router-link>
@@ -80,6 +96,11 @@ import profileIcon from "../../../assets/icons/user.png";
 
 .sidebar-label {
   white-space: nowrap;
+}
+
+.sidebar__active {
+  filter: invert(35%) sepia(97%) saturate(1168%) hue-rotate(186deg)
+    brightness(83%) contrast(92%);
 }
 
 @media (max-width: 768px) {

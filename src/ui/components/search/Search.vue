@@ -4,13 +4,22 @@ const emit = defineEmits<{ "click-search": [] }>();
 const onClickDisplay = () => {
   emit("click-search");
 };
+
+defineProps({
+  search: String,
+});
 </script>
 
 <template>
   <div class="search-container">
     <div class="search-container__search" @click.stop="onClickDisplay">
       <img :src="searchIcon" alt="Search" />
-      <input type="search" placeholder="Procurar Pókemon..." />
+      <input
+        :value="search"
+        type="search"
+        class="input-ellipsis"
+        placeholder="Procurar Pókemon..."
+      />
     </div>
     <button type="button">
       <img :src="searchIcon" alt="Search" />
@@ -19,6 +28,13 @@ const onClickDisplay = () => {
 </template>
 
 <style scoped>
+.input-ellipsis {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .search-container {
   display: flex;
   width: 350px;

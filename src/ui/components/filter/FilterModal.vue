@@ -83,6 +83,7 @@ const cancel = () => {
               <span class="filter-modal__type-name">
                 {{ type }}
               </span>
+              <div :class="`bg-${type}-dark filter-modal__type-circle`"></div>
             </button>
           </div>
         </div>
@@ -242,6 +243,14 @@ const cancel = () => {
   border: 1px solid #ddd;
   color: #121212;
   background: #eeeeee;
+}
+
+.filter-modal__type-circle {
+  max-height: 17px;
+  height: 17px;
+  max-width: 25px;
+  width: 25px;
+  border-radius: 10px;
 }
 
 @media (max-width: 600px) {
